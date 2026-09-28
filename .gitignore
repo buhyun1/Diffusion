@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 데이터셋 (FashionMNIST 등은 각자 data/ 에 받는다)
+data/
+
+# 모델 가중치 · 캐시
+*.pt
+*.pth
+*.ckpt
+models_cache*/
+
+# 생성 표본 배열 · 실행 중 생기는 폴더
+*.npy
+samples/
+saved_models*/
+*_QUICKTEST.xlsx
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
