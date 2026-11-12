@@ -15,8 +15,9 @@
 | `6_diffusion_step_change_experiment` | 오버샘플링에서 diffusion 스텝 수 T(22 · 30 · 100 · 300)를 학습과 샘플링 모두 바꿔 비교 (`256` 데이터) |
 | `7_diffusion_image_filter` | AM 데이터에서 respacing 스텝 수 비교, fake 품질 필터, joint 학습 (`AM_image_data_3split`) |
 | `8_classifier_guidance` | AM 데이터에서 classifier guidance를 붙인 오버샘플링, 30 seed 반복 (`AM_image_data_3split`) |
+| `9_entropy_guidance` | classifier guidance에 분류기 엔트로피 항을 더한 entropy guidance 오버샘플링, 10 seed 반복 (`AM_image_data_3split`) |
 
-각 폴더의 README에 설정과 결과를 정리했다. 5~8번 폴더에는 연구노트 형식으로 적었다.
+각 폴더의 README에 설정과 결과를 정리했다. 5~9번 폴더에는 연구노트 형식으로 적었다.
 
 
 ## 설치
@@ -45,8 +46,8 @@ data/
 ```
 
 - MNIST · FashionMNIST는 처음 실행할 때 `data/`에 자동으로 내려받는다.
-- `256/`, `AM_image_data_3split/`(공정 이미지)은 공개 데이터가 아니므로 위 구조로 직접 넣어야 한다. `256/`은 `2_`, `5_`, `6_` 폴더가, `AM_image_data_3split/`은 `7_`, `8_` 폴더가 쓴다.
-- 5~8번 폴더의 노트북은 기본 경로 대신 환경변수 `DATA_ROOT`로 데이터 위치를 지정할 수 있다.
+- `256/`, `AM_image_data_3split/`(공정 이미지)은 공개 데이터가 아니므로 위 구조로 직접 넣어야 한다. `256/`은 `2_`, `5_`, `6_` 폴더가, `AM_image_data_3split/`은 `7_`, `8_`, `9_` 폴더가 쓴다.
+- 5~9번 폴더의 노트북은 기본 경로 대신 환경변수 `DATA_ROOT`로 데이터 위치를 지정할 수 있다.
 
 ## 실행
 
