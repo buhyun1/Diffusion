@@ -1,0 +1,11 @@
+method,seed,cm_00,cm_01,cm_02,cm_10,cm_11,cm_12,cm_20,cm_21,cm_22
+2_classifier_guidance_ddpm_step10_s1,0,94,5,1,29,66,5,3,4,93
+2_classifier_guidance_ddpm_step10_s1,1,98,2,0,42,58,0,4,8,88
+2_classifier_guidance_ddpm_step10_s1,2,95,4,1,70,27,3,6,5,89
+2_classifier_guidance_ddpm_step10_s1,3,100,0,0,62,38,0,5,4,91
+2_classifier_guidance_ddpm_step10_s1,4,94,4,2,33,63,4,4,4,92
+2_classifier_guidance_ddpm_step10_s1,5,95,5,0,32,64,4,4,4,92
+2_classifier_guidance_ddpm_step10_s1,6,81,18,1,12,86,2,0,2,98
+2_classifier_guidance_ddpm_step10_s1,7,96,4,0,38,60,2,3,10,87
+2_classifier_guidance_ddpm_step10_s1,8,97,2,1,70,29,1,9,2,89
+2_classifier_guidance_ddpm_step10_s1,9,97,3,0,32,65,3,0,4,96
