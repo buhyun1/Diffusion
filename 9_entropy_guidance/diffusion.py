@@ -1,15 +1,5 @@
 import torch
 import torch.nn.functional as F
-import inspect
-from torch.utils.checkpoint import checkpoint
-
-_CKPT_HAS_REENTRANT_ARG = "use_reentrant" in inspect.signature(checkpoint).parameters
-
-
-def _checkpoint(fn, *args):
-    if _CKPT_HAS_REENTRANT_ARG:
-        return checkpoint(fn, *args, use_reentrant=False)
-    return checkpoint(fn, *args)
 
 
 def extract(a, t, x_shape):
@@ -99,19 +89,16 @@ class GaussianDiffusion:
             }
         return cache[steps]
 
-    def _ddpm_respaced_loop(self, diffusion, y, device, steps, use_checkpoint=False, model_fn=None):
-        model = model_fn or (lambda x, t, y: diffusion(x, t, y))
+    def _ddpm_respaced_loop(self, diffusion, y, device, steps):
         sch = self.respaced_schedule(steps)
         use_t = sch["use_t"]
         n = y.size(0)
         x = torch.randn((n, self.channels, self.image_size, self.image_size), device=device)
-        if use_checkpoint and not _CKPT_HAS_REENTRANT_ARG:
-            x.requires_grad_(True)
 
         for i in reversed(range(len(use_t))):
             t = torch.full((n,), use_t[i].item(), device=device, dtype=torch.long)
             idx = torch.full((n,), i, device=device, dtype=torch.long)
-            eps = _checkpoint(model, x, t, y) if use_checkpoint else model(x, t, y)
+            eps = diffusion(x, t, y)
             x0 = self.predict_x0(x, t, eps).clamp(-1.0, 1.0)
             mean = (extract(sch["posterior_mean_coef1"], idx, x.shape) * x0
                     + extract(sch["posterior_mean_coef2"], idx, x.shape) * x)
@@ -185,15 +172,3 @@ class GaussianDiffusion:
     def sample_ddpm_respaced(self, diffusion, y, device, steps=100):
         diffusion.eval()
         return self._ddpm_respaced_loop(diffusion, y, device, steps)
-
-    @torch.no_grad()
-    def sample_ddpm_respaced_cfg(self, diffusion, y, device, steps=10, w=3.0):
-        diffusion.eval()
-        null = diffusion.label_emb.num_embeddings - 1
-
-        def model_fn(x, t, y):
-            eps_c = diffusion(x, t, y)
-            eps_u = diffusion(x, t, torch.full_like(y, null))
-            return eps_u + w * (eps_c - eps_u)
-
-        return self._ddpm_respaced_loop(diffusion, y, device, steps, model_fn=model_fn)
